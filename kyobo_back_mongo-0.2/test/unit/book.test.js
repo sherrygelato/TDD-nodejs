@@ -4,6 +4,15 @@ const httpMocks = require('node-mocks-http');
 const newBook = require("../data/new-book.json");
 const allBooks = require("../data/all-books.json");
 
+// TDD 방법론에서 산출물 : 유닛테스트, int테스트
+
+// rest api 만들어 놓고 TDD를 적용함 - 이게 일반적
+
+// 유닛 테스트는 작은 범위 
+// 앞뒤 다 자르고 우리 의도대로 움직이게 하는 게 목적이다.
+
+// 예외코드는 연극 무대를 만들어서 함
+
 // 가상의 데이터 조회
 const bookId = "620f551aae178ac69eec1272";
 const updatedBook = {
