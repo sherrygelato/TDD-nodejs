@@ -21,16 +21,22 @@ describe("Book Controller Create", () => {
         expect(typeof bookController.createBook).toBe("function")
     });
 
-    it("should call Book.create", () => {
-        bookController.createBook(req, res);
+    it("should call Book.create", async () => {
+        await bookController.createBook(req, res);
         expect(Book.create).toBeCalledWith(newBook);
     });
 
-    it("should return 201 response code", () => {
-        bookController.createBook(req, res, next);
+    it("should return 201 response code", async () => {
+        await bookController.createBook(req, res, next);
         expect(res.statusCode).toBe(201);
         expect(res._isEndCalled()).toBeTruthy();
     })
+
+    it("should return json body in response", async () => {
+        Book.create.mockReturnValue(newBook);
+        await bookController.createBook(req, res, next);
+        expect(res._getJSONData()).toStrictEqual(newBook);
+    });
 });
 
 // describe("Book Controller Create", () => {
