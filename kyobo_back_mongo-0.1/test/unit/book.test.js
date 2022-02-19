@@ -9,7 +9,7 @@ Book.create = jest.fn();
 let req, res, next;
 beforeEach(() => {
     req = httpMocks.createRequest();
-    res = httpMocks.createRequest();
+    res = httpMocks.createResponse();
     next = null;
 })
 
@@ -25,6 +25,12 @@ describe("Book Controller Create", () => {
         bookController.createBook(req, res);
         expect(Book.create).toBeCalledWith(newBook);
     });
+
+    it("should return 201 response code", () => {
+        bookController.createBook(req, res, next);
+        expect(res.statusCode).toBe(201);
+        expect(res._isEndCalled()).toBeTruthy();
+    })
 });
 
 // describe("Book Controller Create", () => {
