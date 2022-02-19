@@ -1,8 +1,25 @@
 const bookController = require("../../controller/books");
+const Book = require("../../models/book");
+const httpMocks = require("node-mocks-http");
+const newBook = require("../data/new-book.json");
+
+// Book Model Mock 생성
+Book.create = jest.fn();
 
 describe("Book Controller Create", () => {
     it("should have a createBook function", () => {
         expect(typeof bookController.createBook).toBe("function")
+    });
+
+    it("should call Book.create", () => {
+        let req = httpMocks.createRequest();
+        let res = httpMocks.createRequest();
+        let next = null;
+
+        req.body = newBook;
+
+        bookController.createBook(req, res);
+        expect(Book.create).toBeCalledWith(newBook);
     });
 });
 
