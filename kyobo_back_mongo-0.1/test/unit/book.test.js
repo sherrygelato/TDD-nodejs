@@ -6,22 +6,43 @@ const newBook = require("../data/new-book.json");
 // Book Model Mock 생성
 Book.create = jest.fn();
 
+let req, res, next;
+beforeEach(() => {
+    req = httpMocks.createRequest();
+    res = httpMocks.createRequest();
+    next = null;
+})
+
 describe("Book Controller Create", () => {
+    beforeEach(() => {
+        req.body = newBook;
+    })
     it("should have a createBook function", () => {
         expect(typeof bookController.createBook).toBe("function")
     });
 
     it("should call Book.create", () => {
-        let req = httpMocks.createRequest();
-        let res = httpMocks.createRequest();
-        let next = null;
-
-        req.body = newBook;
-
         bookController.createBook(req, res);
         expect(Book.create).toBeCalledWith(newBook);
     });
 });
+
+// describe("Book Controller Create", () => {
+//     it("should have a createBook function", () => {
+//         expect(typeof bookController.createBook).toBe("function")
+//     });
+
+//     it("should call Book.create", () => {
+//         let req = httpMocks.createRequest();
+//         let res = httpMocks.createRequest();
+//         let next = null;
+
+//         req.body = newBook;
+
+//         bookController.createBook(req, res);
+//         expect(Book.create).toBeCalledWith(newBook);
+//     });
+// });
 
 
 // describe("Calculation", () => {
