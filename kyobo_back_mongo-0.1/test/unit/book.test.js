@@ -10,8 +10,7 @@ let req, res, next;
 beforeEach(() => {
     req = httpMocks.createRequest();
     res = httpMocks.createResponse();
-    next = null;
-})
+    next = jest.fn();
 
 describe("Book Controller Create", () => {
     beforeEach(() => {
@@ -33,38 +32,28 @@ describe("Book Controller Create", () => {
     })
 
     it("should return json body in response", async () => {
+        // 몽구스 함수 => mock으로 만ㄷㄹ어 놨기에
+        // 누군가 book.create를 호출하면 newBook을 리턴하라
+        // database에 정상적으로 저장이 되었다는 뜻
+
+        // 몽구스 함수는 비동기로 동작함 원래 ㅇㅇ
+        // async await를 넣어서 결과 나올때까지 기다리고 결과값 promise 성공이 오면 json으로 넘겨옴
         Book.create.mockReturnValue(newBook);
         await bookController.createBook(req, res, next);
         expect(res._getJSONData()).toStrictEqual(newBook);
     });
+
+    // 연극 무대 설정 ㅇㅇ
+    it("should handle errors", async () => {
+        const errorMessage = {
+            message: "title property missing"
+        };
+        // promise 비동기값
+        const rejectedPromise = Promise.reject(errorMessage);
+        Book.create.mockReturnValue(rejectedPromise);
+
+        await bookController.createBook(req, res, next);
+        expect(next).toBeCalledWith(errorMessage);
+    });
 });
-
-// describe("Book Controller Create", () => {
-//     it("should have a createBook function", () => {
-//         expect(typeof bookController.createBook).toBe("function")
-//     });
-
-//     it("should call Book.create", () => {
-//         let req = httpMocks.createRequest();
-//         let res = httpMocks.createRequest();
-//         let next = null;
-
-//         req.body = newBook;
-
-//         bookController.createBook(req, res);
-//         expect(Book.create).toBeCalledWith(newBook);
-//     });
-// });
-
-
-// describe("Calculation", () => {
-//     // 비동기 처리
-//     test("two plus two is four", () => {
-//         // 2+2가 4여야 한다.
-//         expect(2 + 2).toBe(4);
-//     });
-
-//     test("two plus two is not five", () => {
-//         expect(2 + 2).not.toBe(5);
-//     });
-// });
+})

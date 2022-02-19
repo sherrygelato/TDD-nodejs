@@ -22,7 +22,8 @@ app.use(cors());
 
 app.use(Router);
 
-// 예외처리
+// next 인자를 통해 넘어온 에러를 처리하기 위한
+// 에러 핸들러 추가
 app.use((error, req, res, next) => {
     res.status(500).json({ message: error.message })
 })
@@ -30,3 +31,5 @@ app.use((error, req, res, next) => {
 app.listen(port, () => {
     console.log('Server is up on port ' + port)
 });
+
+module.exports = app;

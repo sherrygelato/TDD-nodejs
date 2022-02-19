@@ -1,49 +1,54 @@
 const express = require('express');
 const router = express.Router();
 
-const Book = require('../models/book');
+const bookController = require("../controller/books");
 
-router.get('/', (req, res) => {
-    Book.findAll()
-    .then(books => {
-        if(!books.length) return res.status(404).send({ err: 'Todo not found' });
-        res.send(books);
-    })
-    .catch(err => res.status(500).send(err));
-});
+// 라우터를 컨트롤러로 위임
+router.post('/', bookController.createBook);
 
-router.get('/:id', (req, res) => {
-    Book.findById(req.params.id)
-    .then(books => {
-        // if(!books.length) return res.status(404).send({ err: 'Todo not found' });
-        res.send(books);
-    })
-    .catch(err => res.status(500).send(err));
-});
+// const Book = require('../models/book');
 
-router.post('/', (req, res) => {
-    Book.create(req.body)
-    .then(book => {
-        res.send(book);
-    })
-    .catch(err => res.status(500).send(err));
-});
+// router.get('/', (req, res) => {
+//     Book.findAll()
+//     .then(books => {
+//         if(!books.length) return res.status(404).send({ err: 'Todo not found' });
+//         res.send(books);
+//     })
+//     .catch(err => res.status(500).send(err));
+// });
 
-router.put('/:id', (req, res) => {
-    console.log(req.params.id, req.body);
-    Book.updateById(req.params.id, req.body)
-    .then(book => {
-        res.send(book);
-    })
-    .catch(err => res.status(500).send(err));
-});
+// router.get('/:id', (req, res) => {
+//     Book.findById(req.params.id)
+//     .then(books => {
+//         // if(!books.length) return res.status(404).send({ err: 'Todo not found' });
+//         res.send(books);
+//     })
+//     .catch(err => res.status(500).send(err));
+// });
 
-router.delete('/:id', (req, res) => {
-    Book.deleteById(req.params.id)
-    .then(book => {
-        res.send(book);
-    })
-    .catch(err => res.status(500).send(err));
-});
+// router.post('/', (req, res) => {
+//     Book.create(req.body)
+//     .then(book => {
+//         res.send(book);
+//     })
+//     .catch(err => res.status(500).send(err));
+// });
+
+// router.put('/:id', (req, res) => {
+//     console.log(req.params.id, req.body);
+//     Book.updateById(req.params.id, req.body)
+//     .then(book => {
+//         res.send(book);
+//     })
+//     .catch(err => res.status(500).send(err));
+// });
+
+// router.delete('/:id', (req, res) => {
+//     Book.deleteById(req.params.id)
+//     .then(book => {
+//         res.send(book);
+//     })
+//     .catch(err => res.status(500).send(err));
+// });
 
 module.exports = router;
