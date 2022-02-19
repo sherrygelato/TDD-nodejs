@@ -54,23 +54,23 @@ it("PUT /books", async () => {
     expect(response.body.price).toBe(3000)
 })
 
-it("should return 404 on PUT /api/products", async () => {
-    const res = await request(app)
-        .put("/books/" + "5f5d79abdc3acb1b95e0eb99") // firstBook id가 다른 것
-        .send({ title: "updated title", price: 3000 });
-    expect(res.statusCode).toBe(404);
+it("should return 404 on PUT /books", async () => {
+    const response = await request(app)
+    .put("/books/" + "5f5d79abdc3acb1b95e0eb99")
+    .send({title: "updated title", price: 3000})
+    expect(response.statusCode).toBe(404)
 })
 
 it("DELETE /books", async () => {
-    const res = await request(app)
+    const response = await request(app)
         .delete("/books/" + firstBook["_id"])
         .send();
-    expect(res.statusCode).toBe(200);
+    expect(response.statusCode).toBe(200);
 })
 
-it("DELETE id doenst exist /books/:id", async () => {
-    const res = await request(app)
-        .delete("/books/" + firstBook["_id"])
-        .send();
-    expect(res.statusCode).toBe(404);
+it("DELETE id doesnt exist /books/:id", async () => {
+    const response = await request(app)
+    .delete("/books" +firstBook["_id"])
+    .send();
+    expect(response.statusCode).toBe(404)
 })
