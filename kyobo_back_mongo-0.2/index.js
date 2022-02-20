@@ -6,8 +6,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const Router = require('./router');
+require('dotenv').config();
 
-mongoose.connect('mongodb+srv://root:root@cluster0.0fwoe.mongodb.net/store', {
+mongoose.connect(process.env.db_url, {
     useNewUrlParser: true
 })
 .then(() => {
